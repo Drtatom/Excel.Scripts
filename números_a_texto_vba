@@ -1,0 +1,52 @@
+Function ConvertirNumeroTexto(ByVal Numero As Double) As String
+    Dim Unidades() As Variant
+    Dim Decenas() As Variant
+    Dim Texto As String
+    Dim ParteEntera As Long
+    Dim ParteDecimal As Long
+    Dim i As Long
+    
+    ' Definir los nombres de las unidades y decenas
+    Unidades = Array("", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve")
+    Decenas = Array("", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa")
+    
+    ' Dividir el número en parte entera y parte decimal
+    ParteEntera = Int(Numero)
+    ParteDecimal = Round((Numero - ParteEntera) * 100)
+    
+    ' Convertir la parte entera en texto
+    If ParteEntera < 10 Then
+        Texto = Unidades(ParteEntera)
+    ElseIf ParteEntera < 20 Then
+        Select Case ParteEntera
+            Case 11
+                Texto = "once"
+            Case 12
+                Texto = "doce"
+            Case 13
+                Texto = "trece"
+            Case 14
+                Texto = "catorce"
+            Case 15
+                Texto = "quince"
+            Case Else
+                Texto = Unidades(ParteEntera Mod 10) & "ce"
+        End Select
+    ElseIf ParteEntera < 100 Then
+        Texto = Decenas(ParteEntera \ 10)
+        If ParteEntera Mod 10 > 0 Then
+            Texto = Texto & " y " & Unidades(ParteEntera Mod 10)
+        End If
+    Else
+        ' Puedes agregar soporte para números mayores a 99 si es necesario
+        Texto = "Número demasiado grande"
+    End If
+    
+    ' Agregar la parte decimal en texto (opcional)
+    If ParteDecimal > 0 Then
+        Texto = Texto & " punto " & Unidades(ParteDecimal \ 10) & " " & Unidades(ParteDecimal Mod 10)
+    End If
+    
+    ' Devolver el resultado
+    ConvertirNumeroTexto = Texto
+End Function
